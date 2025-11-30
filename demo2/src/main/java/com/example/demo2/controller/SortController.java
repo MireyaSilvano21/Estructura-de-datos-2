@@ -42,7 +42,7 @@ public class SortController {
             
         }
 
-        return ResponseEntity.ok(service.sort(numeros));
+        return ResponseEntity.ok(service.bubbleSort(numeros));
         
             
         }catch(Exception e){
@@ -54,5 +54,78 @@ public class SortController {
         }
     }
     
+
+    @PostMapping("/insertion")
+     public ResponseEntity<?> insertionSort(@RequestBody RequestCadena request) {
+        try{
+            if (request== null || request.getCadena().isBlank()) {
+            ErrorResponse error = new ErrorResponse();
+            error.setError("Peticion incorrecta");
+            error.setDetail("La cadena no puede estar vacia");
+            return ResponseEntity.badRequest().body(error);
+        }
+        String [] partes = request.getCadena().split(",");//recibimos el string y lo convertimos en 
+        int [] numeros = new int [partes.length];//declaracion de el arreglo numeros
+        for (int i = 0; i < partes.length; i++) {
+           try{
+            numeros[i] = Integer.parseInt(partes[i]);
+
+           }catch(IllegalArgumentException e){
+                ErrorResponse error = new ErrorResponse();
+                error.setError("Dato incorrecto, tiene que ser numerico: "+numeros[i]);
+                error.setDetail(e.getMessage());
+                return ResponseEntity.badRequest().body(error);
+           }
+            
+        }
+
+        return ResponseEntity.ok(service.insertionSort(numeros));
+        
+            
+        }catch(Exception e){
+            ErrorResponse error = new ErrorResponse();
+            error.setError("Error interno del servidor");
+            error.setDetail(e.getMessage());
+            return ResponseEntity.internalServerError().body(error);
+
+        }
+    }
+
+
+    @PostMapping("/selection")
+     public ResponseEntity<?> selectionSort(@RequestBody RequestCadena request) {
+        try{
+            if (request== null || request.getCadena().isBlank()) {
+            ErrorResponse error = new ErrorResponse();
+            error.setError("Peticion incorrecta");
+            error.setDetail("La cadena no puede estar vacia");
+            return ResponseEntity.badRequest().body(error);
+        }
+        String [] partes = request.getCadena().split(",");//recibimos el string y lo convertimos en 
+        int [] numeros = new int [partes.length];//declaracion de el arreglo numeros
+        for (int i = 0; i < partes.length; i++) {
+           try{
+            numeros[i] = Integer.parseInt(partes[i]);
+
+           }catch(IllegalArgumentException e){
+                ErrorResponse error = new ErrorResponse();
+                error.setError("Dato incorrecto, tiene que ser numerico: "+numeros[i]);
+                error.setDetail(e.getMessage());
+                return ResponseEntity.badRequest().body(error);
+           }
+            
+        }
+
+        return ResponseEntity.ok(service.selectionSort(numeros));
+        
+            
+        }catch(Exception e){
+            ErrorResponse error = new ErrorResponse();
+            error.setError("Error interno del servidor");
+            error.setDetail(e.getMessage());
+            return ResponseEntity.internalServerError().body(error);
+
+        }
+    }
     
 }
